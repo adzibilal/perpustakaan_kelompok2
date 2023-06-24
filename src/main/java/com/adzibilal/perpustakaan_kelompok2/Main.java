@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 public class Main extends javax.swing.JFrame {
     private DashboardPanel dashboardPanel;
     private DataBukuPanel dataBukuPanel;
+    private DataMahasiswaPanel dataMahasiswaPanel;
 
     /**
      * Creates new form Dashboard
@@ -27,8 +28,10 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         dashboardPanel = new DashboardPanel(); 
         dataBukuPanel = new DataBukuPanel(); 
+        dataMahasiswaPanel = new DataMahasiswaPanel(); 
         jTabbedPane1.addTab("Dashboard", dashboardPanel);  
         jTabbedPane1.addTab("Data Buku", dataBukuPanel);  
+        jTabbedPane1.addTab("Data Mahasiswa", dataMahasiswaPanel);  
     }
 
     /**
