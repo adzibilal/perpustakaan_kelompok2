@@ -24,19 +24,17 @@ import java.awt.event.MouseEvent;
  */
 public class LoginForm extends javax.swing.JFrame {
 
-
     /**
      * Creates new form LoginForm
      */
     public LoginForm() {
         initComponents();
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+//        jButton1.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                jButton1ActionPerformed(evt);
+//            }
+//        });
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,13 +54,12 @@ public class LoginForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        jLabel1.setFont(new java.awt.Font("Felix Titling", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 153, 204));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Library Administration");
 
         t_Username.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         t_Username.setText("Username");
-        t_Username.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 255, 255)));
+        t_Username.setSelectionColor(new java.awt.Color(0, 0, 0));
         t_Username.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 t_UsernameFocusGained(evt);
@@ -79,7 +76,7 @@ public class LoginForm extends javax.swing.JFrame {
 
         t_Password.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         t_Password.setText("Password");
-        t_Password.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 255, 255)));
+        t_Password.setSelectionColor(new java.awt.Color(0, 0, 0));
         t_Password.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 t_PasswordFocusGained(evt);
@@ -89,7 +86,6 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(0, 153, 255));
         jButton1.setText("LOGIN");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,7 +93,6 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
-        btn_exit.setBackground(new java.awt.Color(0, 153, 255));
         btn_exit.setText("Exit");
         btn_exit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -116,15 +111,14 @@ public class LoginForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(t_Password, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(t_Username, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btn_exit)
-                        .addGap(44, 44, 44)))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btn_exit)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(t_Password, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(t_Username, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,9 +131,9 @@ public class LoginForm extends javax.swing.JFrame {
                 .addComponent(t_Password, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btn_exit)
-                .addGap(30, 30, 30))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -147,15 +141,15 @@ public class LoginForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void t_UsernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_t_UsernameFocusGained
-        String Username=t_Username.getText();
-        if(Username.equals("Username")){
+        String Username = t_Username.getText();
+        if (Username.equals("Username")) {
             t_Username.setText("");
         }
     }//GEN-LAST:event_t_UsernameFocusGained
 
     private void t_UsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_t_UsernameFocusLost
-        String Username=t_Username.getText();
-        if(Username.equals("")||Username.equals("Username")){
+        String Username = t_Username.getText();
+        if (Username.equals("") || Username.equals("Username")) {
             t_Username.setText("Username");
         }
     }//GEN-LAST:event_t_UsernameFocusLost
@@ -165,72 +159,71 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_t_UsernameActionPerformed
 
     private void t_PasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_t_PasswordFocusGained
-        String Password=t_Password.getText();
-        if(Password.equals("Password")){
+        String Password = t_Password.getText();
+        if (Password.equals("Password")) {
             t_Password.setText("");
         }
     }//GEN-LAST:event_t_PasswordFocusGained
 
     private void t_PasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_t_PasswordFocusLost
-        String Password=t_Password.getText();
-        if(Password.equals("")||Password.equals("Password")){
+        String Password = t_Password.getText();
+        if (Password.equals("") || Password.equals("Password")) {
             t_Password.setText("Password");
         }
     }//GEN-LAST:event_t_PasswordFocusLost
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String url = "jdbc:mysql://localhost:3306//db_perpustakaan";
         String username = t_Username.getText();
         String password = t_Password.getText();
 
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_perpustakaan", "root", "");) {
-        // Verifikasi login berhasil
-        JOptionPane.showMessageDialog(this, "Login berhasil!");
-        // Lakukan tindakan setelah login berhasil, seperti membuka jendela utama aplikasi
-        Main mainForm = new Main();
-        mainForm.setVisible(true);
-        this.dispose(); // Tutup jendela login setelah login berhasil
-    } catch (SQLException e) {
-        // Verifikasi login gagal
-        JOptionPane.showMessageDialog(this, "Username atau password salah. Silakan coba lagi.");
-    }
+        if (checkLogin(username, password)) {
+            // Verifikasi login berhasil
+            JOptionPane.showMessageDialog(this, "Login berhasil!");
+            try {
+                // Lakukan tindakan setelah login berhasil, seperti membuka jendela utama aplikasi
+                Main mainForm = new Main();
+                mainForm.setVisible(true);
+                this.dispose(); // Tutup jendela login setelah login berhasil
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // Verifikasi login gagal
+            JOptionPane.showMessageDialog(this, "Username atau password salah. Silakan coba lagi.");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public boolean isLoggedIn() {
-        String username = t_Username.getText();
-    String password = t_Password.getText();
+    private boolean checkLogin(String username, String password) {
+        String url = "jdbc:mysql://localhost:3306/db_perpustakaan";
+        String dbUsername = "root";
+        String dbPassword = "";
 
-    // Lakukan validasi login menggunakan metode validateLogin
-    boolean loginValid = validateLogin(username, password);
+        try (Connection conn = DriverManager.getConnection(url, dbUsername, dbPassword)) {
+            String query = "SELECT * FROM users WHERE username = ? AND password = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, username);
+            statement.setString(2, password);
+            ResultSet result = statement.executeQuery();
 
-    if (loginValid) {
-        return true; // Login berhasil
-    } else {
+            if (result.next()) {
+                return true; // Login berhasil
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return false; // Login gagal
     }
-    }
+
     // ...
     private void btn_exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_exitMouseClicked
-        dispose ();
+        dispose();
     }//GEN-LAST:event_btn_exitMouseClicked
 
     private void btn_exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_exitActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_exitActionPerformed
 
-    private boolean validateLogin(String username, String password) {
-        String query = "SELECT * FROM users WHERE username = ? AND password = ?";
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_perpustakaan", "root", "");
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, username);
-            statement.setString(2, password);
-            ResultSet resultSet = statement.executeQuery();
-            return resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
     /**
      * @param args the command line arguments
      */

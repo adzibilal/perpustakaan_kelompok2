@@ -4,36 +4,36 @@
  */
 package com.adzibilal.perpustakaan_kelompok2;
 
-import java.awt.Component;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JTabbedPane;
-import javax.swing.JFrame;
 
 /**
  *
  * @author Lenovo
  */
 public class Main extends javax.swing.JFrame {
+
     private DashboardPanel dashboardPanel;
-    private DataBukuPanel dataBukuPanel;
+    private PeminjamanPanel peminjamanPanel;
     private DataMahasiswaPanel dataMahasiswaPanel;
+    private BukuPanel bukuPanel;
 
     /**
      * Creates new form Dashboard
+     *
+     * @throws java.sql.SQLException
      */
     public Main() throws SQLException {
         initComponents();
-        dashboardPanel = new DashboardPanel(); 
-        dataBukuPanel = new DataBukuPanel(); 
-        dataMahasiswaPanel = new DataMahasiswaPanel(); 
-        jTabbedPane1.addTab("Dashboard", dashboardPanel);  
-        jTabbedPane1.addTab("Data Buku", dataBukuPanel);  
-        jTabbedPane1.addTab("Data Mahasiswa", dataMahasiswaPanel);  
+        dashboardPanel = new DashboardPanel();
+        peminjamanPanel = new PeminjamanPanel();
+        dataMahasiswaPanel = new DataMahasiswaPanel();
+        bukuPanel = new BukuPanel();
+        jTabbedPane1.addTab("Dashboard", dashboardPanel);
+        jTabbedPane1.addTab("Pinjam Buku", peminjamanPanel);
+        jTabbedPane1.addTab("Data Mahasiswa", dataMahasiswaPanel);
+        jTabbedPane1.addTab("Data Buku", bukuPanel);
     }
 
     /**
@@ -79,8 +79,9 @@ public class Main extends javax.swing.JFrame {
 
     /**
      * @param args the command line arguments
+     * @throws java.sql.SQLException
      */
-    public static void main(String args[])throws SQLException {
+    public static void main(String args[]) throws SQLException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -106,20 +107,9 @@ public class Main extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                LoginForm loginForm = new LoginForm();
-                loginForm.setVisible(true);
-
-                if (loginForm.isLoggedIn()) {
-                    try {
-                        Main main = new Main();
-                        main.setVisible(true);
-                    }catch (SQLException ex) {
-                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            LoginForm loginForm = new LoginForm();
+            loginForm.setVisible(true);
         });
     }
 

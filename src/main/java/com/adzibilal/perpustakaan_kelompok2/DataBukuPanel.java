@@ -4,271 +4,244 @@
  */
 package com.adzibilal.perpustakaan_kelompok2;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
-/**
- *
- * @author Lenovo
- */
-public class DataBukuPanel extends JPanel {
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
+public class DataBukuPanel extends javax.swing.JPanel {
 
     private BukuDAO bukuDAO;
+    private DefaultTableModel tableModel;
+    private JTable bukuTable;
+    private JTextField searchField;
+    private JTextField idField;
+    private JTextField judulField;
+    private JTextField penerbitField;
+    private JTextField tahunTerbitField;
+    private int selectedRow = -1;
 
-    private JTextField txtIdBuku;
-    private JTextField txtJudul;
-    private JTextField txtPenerbit;
-    private JTextField txtTahunTerbit;
-    private JTextField txtSearchQuery;
+    public DataBukuPanel() {
+        try {
+            bukuDAO = new BukuDAO();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Koneksi database gagal: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
 
-    private JButton btnTambah;
-    private JButton btnHapus;
-    private JButton btnPerbarui;
-    private JButton btnReset;
-    private JButton btnCari;
+        initComponents();
+        loadDataBuku();
+    }
 
-    private JTable tabelBuku;
-    private DefaultTableModel modelTabelBuku;
-
-    public DataBukuPanel() throws SQLException {
-        bukuDAO = new BukuDAO();
-
+    private void initComponents() {
         setLayout(new BorderLayout());
-        // Panel utama dengan BorderLayout
-        JPanel panelUtama = new JPanel(new BorderLayout());
+        setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        // Panel form
-        JPanel panelForm = new JPanel(new GridLayout(5, 2));
-        JLabel lblIdBuku = new JLabel("ID Buku:");
-        txtIdBuku = new JTextField();
-        JLabel lblJudul = new JLabel("Judul:");
-        txtJudul = new JTextField();
-        JLabel lblPenerbit = new JLabel("Penerbit:");
-        txtPenerbit = new JTextField();
-        JLabel lblTahunTerbit = new JLabel("Tahun Terbit:");
-        txtTahunTerbit = new JTextField();
-        JLabel lblSearchQuery = new JLabel("Cari Buku:");
-        txtSearchQuery = new JTextField();
-        panelForm.add(lblIdBuku);
-        panelForm.add(txtIdBuku);
-        panelForm.add(lblJudul);
-        panelForm.add(txtJudul);
-        panelForm.add(lblPenerbit);
-        panelForm.add(txtPenerbit);
-        panelForm.add(lblTahunTerbit);
-        panelForm.add(txtTahunTerbit);
-        panelForm.add(lblSearchQuery);
-        panelForm.add(txtSearchQuery);
-        // ...
-        panelUtama.add(panelForm, BorderLayout.NORTH);
+        // Panel Utama
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-        // Panel button
-        JPanel panelButton = new JPanel(new FlowLayout());
-        btnTambah = new JButton("Tambah");
-        btnHapus = new JButton("Hapus");
-        btnPerbarui = new JButton("Perbarui");
-        btnReset = new JButton("Reset");
-        btnCari = new JButton("Cari");
-        panelButton.add(btnTambah);
-        panelButton.add(btnHapus);
-        panelButton.add(btnPerbarui);
-        panelButton.add(btnReset);
-        panelButton.add(btnCari);
-        // ...
-        panelUtama.add(panelButton, BorderLayout.CENTER);
+        // Panel Form Input
+        JPanel formPanel = new JPanel(new BorderLayout());
 
-        // Tabel buku
-        String[] header = {"ID Buku", "Judul", "Penerbit", "Tahun Terbit"};
-        modelTabelBuku = new DefaultTableModel(header, 0);
-        tabelBuku = new JTable(modelTabelBuku);
-        // Menentukan tinggi tabel
-        int tableHeight = 370; // Ubah sesuai dengan kebutuhan Anda
+        JPanel labelPanel = new JPanel(new GridLayout(4, 1));
 
-        // Mengatur tinggi tabel
-        Dimension tableDimension = new Dimension(tabelBuku.getPreferredSize().width, tableHeight);
-        tabelBuku.setPreferredScrollableViewportSize(tableDimension);
+        JPanel inputFieldPanel = new JPanel(new GridLayout(4, 2));
+        idField = new JTextField(10);
+        judulField = new JTextField(10);
+        penerbitField = new JTextField(10);
+        tahunTerbitField = new JTextField(10);
 
-        JScrollPane scrollPane = new JScrollPane(tabelBuku);
-        tabelBuku.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                int selectedRow = tabelBuku.getSelectedRow();
-                if (selectedRow != -1) {
-                    String idBuku = (String) tabelBuku.getValueAt(selectedRow, 0);
-                    String judul = (String) tabelBuku.getValueAt(selectedRow, 1);
-                    String penerbit = (String) tabelBuku.getValueAt(selectedRow, 2);
-                    int tahunTerbit = (int) tabelBuku.getValueAt(selectedRow, 3);
+        inputFieldPanel.add(new JLabel("ID Buku:"));
+        inputFieldPanel.add(idField);
+        inputFieldPanel.add(new JLabel("Judul:"));
+        inputFieldPanel.add(judulField);
+        inputFieldPanel.add(new JLabel("Penerbit:"));
+        inputFieldPanel.add(penerbitField);
+        inputFieldPanel.add(new JLabel("Tahun Terbit:"));
+        inputFieldPanel.add(tahunTerbitField);
 
-                    txtIdBuku.setText(idBuku);
-                    txtJudul.setText(judul);
-                    txtPenerbit.setText(penerbit);
-                    txtTahunTerbit.setText(String.valueOf(tahunTerbit));
-                }
-            }
-        });
+        formPanel.add(labelPanel, BorderLayout.WEST);
+        formPanel.add(inputFieldPanel, BorderLayout.CENTER);
 
-        // ...
-        panelUtama.add(scrollPane, BorderLayout.SOUTH);
-
-// Menambahkan panelUtama ke dalam DataBukuPanel
-        add(panelUtama);
-
-        // Mengatur aksi tombol
-        btnTambah.addActionListener(new ActionListener() {
+        JPanel buttonPanel = new JPanel();
+        JButton addButton = new JButton("Tambah");
+        addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 tambahBuku();
             }
         });
-
-        btnHapus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                hapusBuku();
-            }
-        });
-
-        btnPerbarui.addActionListener(new ActionListener() {
+        JButton updateButton = new JButton("Perbarui");
+        updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 perbaruiBuku();
             }
         });
-
-        btnReset.addActionListener(new ActionListener() {
+        JButton deleteButton = new JButton("Hapus");
+        deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    resetForm();
-                } catch (SQLException ex) {
-                    Logger.getLogger(DataBukuPanel.class.getName()).log(Level.SEVERE, null, ex);
+                hapusBuku();
+            }
+        });
+        buttonPanel.add(addButton);
+        buttonPanel.add(updateButton);
+        buttonPanel.add(deleteButton);
+        formPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        mainPanel.add(formPanel);
+
+        // Panel Pencarian
+        JPanel searchPanel = new JPanel();
+        searchPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
+        searchField = new JTextField(20);
+        JButton searchButton = new JButton("Cari");
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String searchQuery = searchField.getText();
+                filterBukuTable(searchQuery);
+            }
+        });
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+        mainPanel.add(searchPanel);
+
+        // Tabel Buku
+        tableModel = new DefaultTableModel(new String[]{"ID Buku", "Judul", "Penerbit", "Tahun Terbit"}, 0);
+        bukuTable = new JTable(tableModel);
+        JScrollPane tableScrollPane = new JScrollPane(bukuTable);
+        tableScrollPane.setPreferredSize(new Dimension(500, 200));
+        mainPanel.add(tableScrollPane);
+
+        // Mengatur seleksi baris pada tabel
+        bukuTable.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                selectedRow = bukuTable.getSelectedRow();
+                if (selectedRow >= 0) {
+                    selectedRow = bukuTable.convertRowIndexToModel(selectedRow);
+                    isiFormDariDataBuku();
                 }
             }
         });
 
-        btnCari.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cariBuku();
-            }
-        });
-
-        // Memuat data buku ke dalam tabel
-        muatDataBuku();
+        add(mainPanel, BorderLayout.CENTER);
     }
 
-    private void tambahBuku() {
+    private void loadDataBuku() {
         try {
-            String idBuku = txtIdBuku.getText();
-            String judul = txtJudul.getText();
-            String penerbit = txtPenerbit.getText();
-            int tahunTerbit = Integer.parseInt(txtTahunTerbit.getText());
-
-            Buku buku = new Buku(idBuku, judul, penerbit, tahunTerbit);
-            bukuDAO.tambahBuku(buku);
-
-            JOptionPane.showMessageDialog(this, "Buku berhasil ditambahkan", "Sukses", JOptionPane.INFORMATION_MESSAGE);
-
-            resetForm();
-            muatDataBuku();
+            List<Buku> bukuList = bukuDAO.semuaBuku();
+            tableModel.setRowCount(0);
+            for (Buku buku : bukuList) {
+                Object[] data = {buku.getIdBuku(), buku.getJudul(), buku.getPenerbit(), buku.getTahunTerbit()};
+                tableModel.addRow(data);
+            }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Gagal menambahkan buku: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Tahun Terbit harus berupa angka", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Gagal memuat data buku: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void hapusBuku() {
-        int selectedRow = tabelBuku.getSelectedRow();
-        if (selectedRow != -1) {
-            String idBuku = (String) tabelBuku.getValueAt(selectedRow, 0);
-            try {
-                bukuDAO.hapusBuku(idBuku);
+    private void filterBukuTable(String searchQuery) {
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+        bukuTable.setRowSorter(sorter);
+        RowFilter<DefaultTableModel, Object> filter = RowFilter.regexFilter("(?i)" + searchQuery);
+        sorter.setRowFilter(filter);
+    }
 
-                JOptionPane.showMessageDialog(this, "Buku berhasil dihapus", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+    private void tambahBuku() {
+        String idBuku = idField.getText();
+        String judul = judulField.getText();
+        String penerbit = penerbitField.getText();
+        int tahunTerbit = Integer.parseInt(tahunTerbitField.getText());
 
-                resetForm();
-                muatDataBuku();
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Gagal menghapus buku: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Pilih buku yang akan dihapus", "Peringatan", JOptionPane.WARNING_MESSAGE);
+        try {
+            Buku buku = new Buku(idBuku, judul, penerbit, tahunTerbit);
+            bukuDAO.tambahBuku(buku);
+            loadDataBuku();
+            clearInputFields();
+            JOptionPane.showMessageDialog(null, "Buku berhasil ditambahkan", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Gagal menambahkan buku: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void perbaruiBuku() {
-        int selectedRow = tabelBuku.getSelectedRow();
-        if (selectedRow != -1) {
-            String idBuku = txtIdBuku.getText();
-            String judul = txtJudul.getText();
-            String penerbit = txtPenerbit.getText();
-            int tahunTerbit = Integer.parseInt(txtTahunTerbit.getText());
+        if (selectedRow >= 0) {
+            String idBuku = idField.getText();
+            String judul = judulField.getText();
+            String penerbit = penerbitField.getText();
+            int tahunTerbit = Integer.parseInt(tahunTerbitField.getText());
 
-            Buku buku = new Buku(idBuku, judul, penerbit, tahunTerbit);
             try {
+                Buku buku = new Buku(idBuku, judul, penerbit, tahunTerbit);
                 bukuDAO.perbaruiBuku(buku);
-
-                JOptionPane.showMessageDialog(this, "Buku berhasil diperbarui", "Sukses", JOptionPane.INFORMATION_MESSAGE);
-
-                resetForm();
-                muatDataBuku();
+                loadDataBuku();
+                clearInputFields();
+                JOptionPane.showMessageDialog(null, "Buku berhasil diperbarui", "Informasi", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Gagal memperbarui buku: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Tahun Terbit harus berupa angka", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Gagal memperbarui buku: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Pilih buku yang akan diperbarui", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Pilih buku yang ingin diperbarui", "Peringatan", JOptionPane.WARNING_MESSAGE);
         }
     }
 
-    private void resetForm() throws SQLException {
-        txtIdBuku.setText("");
-        txtJudul.setText("");
-        txtPenerbit.setText("");
-        txtTahunTerbit.setText("");
-        txtSearchQuery.setText(""); // Menambahkan pernyataan ini untuk mereset pencarian
-        tabelBuku.clearSelection();
-        muatDataBuku();
-    }
+    private void hapusBuku() {
+        if (selectedRow >= 0) {
+            String idBuku = idField.getText();
 
-    private void muatDataBuku() throws SQLException {
-        modelTabelBuku.setRowCount(0);
-
-        List<Buku> bukuList = bukuDAO.semuaBuku();
-        for (Buku buku : bukuList) {
-            Object[] row = {buku.getIdBuku(), buku.getJudul(), buku.getPenerbit(), buku.getTahunTerbit()};
-            modelTabelBuku.addRow(row);
-        }
-
-        tabelBuku.getSelectionModel().clearSelection();
-    }
-
-    private void cariBuku() {
-        String searchQuery = txtSearchQuery.getText();
-        try {
-            List<Buku> bukuList = bukuDAO.cariBuku(searchQuery);
-            modelTabelBuku.setRowCount(0);
-            for (Buku buku : bukuList) {
-                Object[] row = {buku.getIdBuku(), buku.getJudul(), buku.getPenerbit(), buku.getTahunTerbit()};
-                modelTabelBuku.addRow(row);
+            try {
+                bukuDAO.hapusBuku(idBuku);
+                loadDataBuku();
+                clearInputFields();
+                JOptionPane.showMessageDialog(null, "Buku berhasil dihapus", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Gagal menghapus buku: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-            tabelBuku.getSelectionModel().clearSelection();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Gagal mencari buku: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Pilih buku yang ingin dihapus", "Peringatan", JOptionPane.WARNING_MESSAGE);
         }
+    }
+
+    private void isiFormDariDataBuku() {
+        if (selectedRow >= 0) {
+            String idBuku = tableModel.getValueAt(selectedRow, 0).toString();
+            String judul = tableModel.getValueAt(selectedRow, 1).toString();
+            String penerbit = tableModel.getValueAt(selectedRow, 2).toString();
+            String tahunTerbit = tableModel.getValueAt(selectedRow, 3).toString();
+
+            idField.setText(idBuku);
+            judulField.setText(judul);
+            penerbitField.setText(penerbit);
+            tahunTerbitField.setText(tahunTerbit);
+        }
+    }
+
+    private void clearInputFields() {
+        idField.setText("");
+        judulField.setText("");
+        penerbitField.setText("");
+        tahunTerbitField.setText("");
     }
 }
