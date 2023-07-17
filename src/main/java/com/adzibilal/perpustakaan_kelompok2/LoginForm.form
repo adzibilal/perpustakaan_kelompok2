@@ -29,10 +29,10 @@
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="btn_exit" min="-2" max="-2" attributes="0"/>
                   <Component id="jButton1" alignment="1" min="-2" pref="364" max="-2" attributes="0"/>
-                  <Component id="t_Password" alignment="1" min="-2" pref="364" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jLabel1" min="-2" pref="350" max="-2" attributes="0"/>
-                      <Component id="t_Username" min="-2" pref="364" max="-2" attributes="0"/>
+                      <Component id="t_Username" pref="364" max="32767" attributes="0"/>
+                      <Component id="jPasswordField1" alignment="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="17" max="32767" attributes="0"/>
@@ -46,9 +46,9 @@
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="t_Username" min="-2" pref="30" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="t_Password" min="-2" pref="30" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="jPasswordField1" min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jButton1" min="-2" pref="30" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btn_exit" min="-2" max="-2" attributes="0"/>
@@ -80,19 +80,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="t_UsernameActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="t_Password">
-      <Properties>
-        <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Password"/>
-        <Property name="selectionColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="0" type="rgb"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="t_PasswordFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="t_PasswordFocusLost"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
         <Property name="text" type="java.lang.String" value="LOGIN"/>
@@ -109,6 +96,11 @@
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_exitMouseClicked"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_exitActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="jPasswordField1">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

@@ -47,9 +47,9 @@ public class LoginForm extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         t_Username = new javax.swing.JTextField();
-        t_Password = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         btn_exit = new javax.swing.JButton();
+        jPasswordField1 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -74,18 +74,6 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
-        t_Password.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        t_Password.setText("Password");
-        t_Password.setSelectionColor(new java.awt.Color(0, 0, 0));
-        t_Password.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                t_PasswordFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                t_PasswordFocusLost(evt);
-            }
-        });
-
         jButton1.setText("LOGIN");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,6 +93,8 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
+        jPasswordField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -114,10 +104,10 @@ public class LoginForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btn_exit)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(t_Password, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(t_Username, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(t_Username, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
+                        .addComponent(jPasswordField1)))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -127,9 +117,9 @@ public class LoginForm extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(t_Username, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(t_Password, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_exit)
@@ -158,23 +148,9 @@ public class LoginForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_t_UsernameActionPerformed
 
-    private void t_PasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_t_PasswordFocusGained
-        String Password = t_Password.getText();
-        if (Password.equals("Password")) {
-            t_Password.setText("");
-        }
-    }//GEN-LAST:event_t_PasswordFocusGained
-
-    private void t_PasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_t_PasswordFocusLost
-        String Password = t_Password.getText();
-        if (Password.equals("") || Password.equals("Password")) {
-            t_Password.setText("Password");
-        }
-    }//GEN-LAST:event_t_PasswordFocusLost
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String username = t_Username.getText();
-        String password = t_Password.getText();
+        String password = jPasswordField1.getText();
 
         if (checkLogin(username, password)) {
             // Verifikasi login berhasil
@@ -263,7 +239,7 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JButton btn_exit;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField t_Password;
+    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField t_Username;
     // End of variables declaration//GEN-END:variables
 }

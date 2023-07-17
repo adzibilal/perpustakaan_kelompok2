@@ -4,6 +4,8 @@
  */
 package com.adzibilal.perpustakaan_kelompok2;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +19,7 @@ public class Main extends javax.swing.JFrame {
     private DashboardPanel dashboardPanel;
     private PeminjamanPanel peminjamanPanel;
     private DataMahasiswaPanel dataMahasiswaPanel;
-    private BukuPanel bukuPanel;
+    private DataBukuPanel dataBukuPanel2;
 
     /**
      * Creates new form Dashboard
@@ -29,11 +31,14 @@ public class Main extends javax.swing.JFrame {
         dashboardPanel = new DashboardPanel();
         peminjamanPanel = new PeminjamanPanel();
         dataMahasiswaPanel = new DataMahasiswaPanel();
-        bukuPanel = new BukuPanel();
+        dataBukuPanel2 = new DataBukuPanel();
+
         jTabbedPane1.addTab("Dashboard", dashboardPanel);
         jTabbedPane1.addTab("Pinjam Buku", peminjamanPanel);
         jTabbedPane1.addTab("Data Mahasiswa", dataMahasiswaPanel);
-        jTabbedPane1.addTab("Data Buku", bukuPanel);
+        jTabbedPane1.addTab("Data Buku", dataBukuPanel2);
+
+        centerFrame();
     }
 
     /**
@@ -113,6 +118,16 @@ public class Main extends javax.swing.JFrame {
         });
     }
 
+    // Method untuk mengatur frame berada di tengah layar
+    private void centerFrame() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = screenSize.width;
+        int screenHeight = screenSize.height;
+        int frameWidth = getWidth();
+        int frameHeight = getHeight();
+
+        setLocation((screenWidth - frameWidth) / 2, (screenHeight - frameHeight) / 2);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel6;
