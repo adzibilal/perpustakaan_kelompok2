@@ -363,6 +363,9 @@ public class PeminjamanPanel extends javax.swing.JPanel {
             // Clear the form and reload table data
             clearForm();
             loadTableData();
+            // Menampilkan JOptionPane untuk informasi berhasil menambahkan data
+            JOptionPane.showMessageDialog(this, "Data peminjaman berhasil ditambahkan.", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -387,6 +390,9 @@ public class PeminjamanPanel extends javax.swing.JPanel {
             // Clear the form and reload table data
             clearForm();
             loadTableData();
+            // Menampilkan JOptionPane untuk informasi berhasil update data
+            JOptionPane.showMessageDialog(this, "Data peminjaman berhasil diupdate.", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -405,6 +411,10 @@ public class PeminjamanPanel extends javax.swing.JPanel {
             // Clear the form and reload table data
             clearForm();
             loadTableData();
+
+            // Menampilkan JOptionPane untuk informasi berhasil menghapus data
+            JOptionPane.showMessageDialog(this, "Data peminjaman berhasil dihapus.", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -417,47 +427,22 @@ public class PeminjamanPanel extends javax.swing.JPanel {
             int idPeminjaman = (int) jTable1.getValueAt(selectedRow, 0);
             String npm = (String) jTable1.getValueAt(selectedRow, 2);
 
-            // Create and show the detail popup window
-            JFrame detailFrame = new JFrame("Detail Peminjaman");
-            detailFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            detailFrame.setSize(400, 300);
+            // Create an instance of the DetailPeminjamanPanel class with the idPeminjaman parameter
+            DetailPeminjamanPanel detailPanel = new DetailPeminjamanPanel(idPeminjaman);
 
-            JPanel detailPanel = new JPanel(new BorderLayout());
-            JTextArea detailTextArea = new JTextArea();
-            JScrollPane detailScrollPane = new JScrollPane(detailTextArea);
+            // Create a JFrame to hold the panel
+            JFrame frame = new JFrame("Detail Peminjaman");
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.getContentPane().add(detailPanel); // Add the panel to the frame's content pane
 
-            try {
-                // Retrieve detail data from the database
-                String query = "SELECT b.Judul, b.Penerbit, b.Tahun_Terbit, dp.Jumlah "
-                        + "FROM detail_peminjaman dp "
-                        + "JOIN buku b ON dp.ID_Buku = b.ID_Buku "
-                        + "WHERE dp.ID_Peminjaman = ?";
-                PreparedStatement preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setInt(1, idPeminjaman);
-                ResultSet resultSet = preparedStatement.executeQuery();
+            // Pack the components in the frame
+            frame.pack();
 
-                // Populate the detail text area
-                StringBuilder detailText = new StringBuilder();
-                while (resultSet.next()) {
-                    String judul = resultSet.getString("Judul");
-                    String penerbit = resultSet.getString("Penerbit");
-                    int tahunTerbit = resultSet.getInt("Tahun_Terbit");
-                    int jumlah = resultSet.getInt("Jumlah");
+            // Center the frame on the screen
+            frame.setLocationRelativeTo(null);
 
-                    detailText.append("Judul: ").append(judul).append("\n");
-                    detailText.append("Penerbit: ").append(penerbit).append("\n");
-                    detailText.append("Tahun Terbit: ").append(tahunTerbit).append("\n");
-                    detailText.append("Jumlah: ").append(jumlah).append("\n\n");
-                }
-
-                detailTextArea.setText(detailText.toString());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-            detailPanel.add(detailScrollPane, BorderLayout.CENTER);
-            detailFrame.add(detailPanel);
-            detailFrame.setVisible(true);
+            // Set the frame's visibility to true to display the panel
+            frame.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Pilih baris terlebih dahulu.", "Error", JOptionPane.ERROR_MESSAGE);
         }

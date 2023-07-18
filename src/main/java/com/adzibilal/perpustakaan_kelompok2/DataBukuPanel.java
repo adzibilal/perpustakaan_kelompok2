@@ -336,6 +336,9 @@ public class DataBukuPanel extends javax.swing.JPanel {
             // Menampilkan kembali data setelah penambahan
             getData();
             clearFields();
+
+            // Menampilkan JOptionPane untuk informasi berhasil menambahkan data
+            JOptionPane.showMessageDialog(this, "Data buku berhasil ditambahkan.", "Informasi", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -369,6 +372,9 @@ public class DataBukuPanel extends javax.swing.JPanel {
             // Menampilkan kembali data setelah update
             getData();
             clearFields();
+            // Menampilkan JOptionPane untuk informasi berhasil update data
+            JOptionPane.showMessageDialog(this, "Data buku berhasil diupdate.", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -398,6 +404,9 @@ public class DataBukuPanel extends javax.swing.JPanel {
                 // Menampilkan kembali data setelah penghapusan
                 getData();
                 clearFields();
+                // Menampilkan JOptionPane untuk informasi berhasil menghapus data
+                JOptionPane.showMessageDialog(this, "Data buku berhasil dihapus.", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
