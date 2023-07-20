@@ -117,7 +117,7 @@ public class DetailPeminjamanPanel extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -242,6 +242,10 @@ public class DetailPeminjamanPanel extends javax.swing.JPanel {
         detailTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) { // Detect double-click on row
+                    int rowIndex = detailTable.getSelectedRow();
+                    editRow(rowIndex);
+                }
                 showPopupMenu(evt);
             }
 
@@ -509,6 +513,7 @@ public class DetailPeminjamanPanel extends javax.swing.JPanel {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        getDataDetailPeminjamanTabel();
     }
 
     private void deleteDetailPeminjamanFromDatabase(int idBuku) {

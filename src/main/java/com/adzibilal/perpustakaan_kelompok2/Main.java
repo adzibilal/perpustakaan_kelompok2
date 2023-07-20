@@ -20,6 +20,7 @@ public class Main extends javax.swing.JFrame {
     private PeminjamanPanel peminjamanPanel;
     private DataMahasiswaPanel dataMahasiswaPanel;
     private DataBukuPanel dataBukuPanel2;
+    private TentangPanel tentangPanel;
 
     /**
      * Creates new form Dashboard
@@ -32,11 +33,13 @@ public class Main extends javax.swing.JFrame {
         peminjamanPanel = new PeminjamanPanel();
         dataMahasiswaPanel = new DataMahasiswaPanel();
         dataBukuPanel2 = new DataBukuPanel();
+        tentangPanel = new TentangPanel();
 
         jTabbedPane1.addTab("Dashboard", dashboardPanel);
         jTabbedPane1.addTab("Pinjam Buku", peminjamanPanel);
         jTabbedPane1.addTab("Data Mahasiswa", dataMahasiswaPanel);
         jTabbedPane1.addTab("Data Buku", dataBukuPanel2);
+        jTabbedPane1.addTab("Tentang", tentangPanel);
 
         centerFrame();
     }
